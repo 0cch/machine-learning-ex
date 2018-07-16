@@ -20,10 +20,13 @@ def cifar10_loaddata2image(num):
     
     with tf.Session() as sess:
         tf.local_variables_initializer().run()
-        tf.train.start_queue_runners(sess)
+        coord = tf.train.Coordinator()
+        tf.train.start_queue_runners(sess, coord=coord)
         for i in range(num):
             l, d=sess.run([label, output_image_data])
             with open('sample-%u-label-%u.png' % (i, l), 'wb') as f:
                 f.write(d)
+        coord.request_stop()
+        coord.wait_for_stop()
     
     
