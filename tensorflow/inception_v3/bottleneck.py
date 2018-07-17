@@ -5,7 +5,7 @@ from tensorflow import keras
 from tensorflow.examples.tutorials.mnist import input_data
 from skimage import transform as skitf
 
-mnist = input_data.read_data_sets(".", one_hot=True)
+# mnist = input_data.read_data_sets(".", one_hot=True)
 
 def mnist_write_img(path, num, images, labels):
     file_name_index = [0] * 10
@@ -31,7 +31,7 @@ for layer in model.layers:
 
 top_model = keras.models.Sequential()
 top_model.add(keras.layers.Flatten(input_shape=model.output_shape[1:]))
-top_model.add(keras.layers.Dense(30, activation='relu'))
+top_model.add(keras.layers.Dense(150, activation='relu'))
 top_model.add(keras.layers.Dense(10, activation='softmax'))
 
 model = keras.models.Model(inputs=model.input, outputs=top_model(model.output))
