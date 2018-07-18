@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import tensorflow as tf
 from tensorflow import keras
+from skimage import transform
+import numpy as np
 
 def read_mnist_tfrecord(path, num):
     file_queue = tf.train.string_input_producer([path], shuffle=False)
@@ -28,3 +30,10 @@ def read_mnist_tfrecord(path, num):
 example = read_mnist_tfrecord('../mnist/mnist_test.tfrecords', 1)
 model = keras.models.load_model('./mnist_inception_v3.h5')
 model.load_weights('./mnist_inception_v3_weights.h5')
+
+model.summary()
+
+x = transform.resize(example[0]['image_raw'].reshape(28,28,1), (150,150,3), mode='reflect')
+print(example[0]['label'])
+y = model.predict(x[np.newaxis])
+print(np.argmax(y))
